@@ -5,9 +5,10 @@
 
 
 \usepackage{physics}
-\usepackage{graphicx,amsmath,amssymb,mathtools,hyperref,amsfonts,pgfplots,caption,epstopdf,todonotes,tikz,subcaption}
+\usepackage{graphicx,amsmath,amssymb,mathtools,hyperref,amsfonts,pgfplots,caption,epstopdf,todonotes,tikz,subcaption,geometry}
 \usepackage{siunitx}
 \usepackage[version=4]{mhchem}
+\usepackage{booktabs}
 
 \usetikzlibrary{patterns}
 \usetikzlibrary{arrows}
@@ -15,6 +16,8 @@
 
 \newcommand{\tino}[1]{\todo[inline,color=red!40]{Tino: #1}}
 \newcommand{\scott}[1]{\todo[inline,color=green!40]{Scott: #1}}
+
+\geometry{margin=3cm}
 
 \journal{Journal of Power Sources}
 
@@ -92,60 +95,146 @@ This template helps you to create a properly formatted \LaTeX\ manuscript.
 
 \section{Introduction} 
 \subsection{Background}
-Lithium-ion batteries are used extensively in consumer electronics and industry. In the management and design of batteries for these many applications, mathematical models are an essential tool. The standard mathematical model for a lithium-ion battery is the Doyle-Fuller Newman (DFN) model, which was developed by John Newman and cooperators in 1990s \cite{doyle,Fuller1994,newman_book}. However, for many applications, this model is overly complex. Instead, simpler models such as the Single Particle Model (SPM) are commonly employed within the control community \cite{Moura2017} (and others). \\
-
-There have been several previous attempts to derive the SPM and various extensions (ciiite). However, these approaches generally rely on a number of unnecessary assumptions. In this work, we provide a rigorous mathematical derivation of the SPM and extensions by employing asymptotic methods. Similar methods have been used in the derivation of reduced models of lead acid batteries \cite{tino}. With our approach, we require only two assumptions: fast electrical conductivity in the negative and positive electrodes, and fast diffusion in the electrolyte. The validity of both of these assumptions is determined directly from the inputed parameter values. In comparison, six assumptions that can only be validated by comparison with the full DFN model are required in \cite{Moura2017}. Furthermore, our approach provides information regarding the accuracy of the reduced models. A key result of our work is a purely algebraic correction term which predicts the terminal voltage to a higher degree of accuracy than the SPM but with negligible additional computational requirements. 
+Lithium-ion batteries are used extensively in consumer electronics and industry. Mathematical models are an essential tool for the design and management of battery systems. The standard mathematical model of a lithium-ion battery is the Doyle-Fuller Newman (DFN) model, which was developed by John Newman and collaborators \cite{doyle,Fuller1994,newman_book}. This model consists of a set of highly coupled nonlinear parabolic and elliptic partial differential equations (PDEs), which must be solved by employing sophisticated numerical techniques. For many applications, the complicated DFN model is not practical and so  simpler models such as the Single Particle Model (SPM) are used instead \cite{Moura2017} (and others). There have been several previous attempts to derive the SPM and corrections to it (ciiite). However, these approaches generally rely on a number of unnecessary assumptions. In this work, we provide a rigorous mathematical derivation of the SPM and an additional correction for the electrolyte by employing asymptotic methods. Similar methods have been used in the derivation of reduced models of lead acid batteries \cite{tino}. With our approach, we require only two assumptions: fast electrical conductivity in the negative and positive electrodes, and fast diffusion in the electrolyte. The validity of both of these assumptions is determined directly from the input parameter values. In comparison, six assumptions that can only be validated by comparison with the full DFN model are required in \cite{Moura2017}. Furthermore, our approach provides information regarding the accuracy of the reduced models. A key result of our work is an electrolyte correction term which predicts the terminal voltage to a higher degree of accuracy than the SPM but with negligible additional computational requirements. 
 
 \subsection{How a Lithium-ion Battery Works}
-Lithium-ion batteries consist of two electrodes, a porous separator, an electrolyte, and two current collectors, as displayed in Figure \ref{fig:liBat}. We neglect the effects of the binder in this description. 
+Lithium-ion batteries consist of two electrodes, a porous separator, an electrolyte, and two current collectors, as displayed in Figure \ref{fig:liBat}. Each electrode consists of active material particles within which lithium can be stored, and a binder which holds the electrode together and maintains electrical conductivity between the active material particles. In Figure \ref{fig:liBat}, we do not display the binder material. 
 \begin{figure}[h!]
 	\centering
 	\LiBattery
-    \caption{Schematic of a lithium-ion battery.}\label{fig:liBat}
+    \caption{Schematic of a lithium-ion battery. Active material particles are shaded cross-stitch and diagonally for the negative and positive active materials, respectively.}\label{fig:liBat}
 \end{figure} 
-Upon discharge, lithium intercalated in the negative electrode particles diffuses to the surface of the particles where a chemical reaction occurs. This chemical reaction produces a lithium ion free to move through the electrolyte and an electron free to move through the electrode. The electron travels through the electrode, into the current collector, through an external wire, and towards the positive electrode. Meanwhile, the lithium ion diffuses through the electrolyte towards the positive electrode. At the surface of the positive electrode particles, the lithium ion and the electron combine through another chemical reaction to form a lithium atom intercalated in the positive electrode particle. To charge, a voltage is applied across the cell and the whole process occurs in reverse.
-
-\chapter{Reduction of a Porous Electrode Model}\label{chap:reduction} 
-\section{Introduction} 
-In order to predict degradation over many cycles, computationally efficient mathematical models of lithium-ion batteries are required. In this chapter, we employ asymptotic methods to rigorously derive reduced mathematical models from the most commonly used mathematical model of a lithium-ion battery, the Doyle-Fuller-Newman (DFN) model \cite{doyle,Fuller1994,newman_book}. One of these reduced models is the commonly used single particle model (SPM) \cite{Bizeray2017,Perez2016}. We then extend the range of operating conditions over which this model is applicable by proposing an additional algebraic correction term. Finally, we compare our results with the DFN model and identify two discrepancies in the voltage which occur at high discharge currents. We provide a solution to fix the first of these discrepancies and investigate potential fixes for the second. The work in this chapter is currently being compiled into a paper. 
+Upon discharge, lithium intercalated in the negative electrode particles diffuses to the surface of the particles where a chemical reaction occurs. This chemical reaction produces a lithium ion free to move through the electrolyte and an electron free to move through the electrode. The electron travels through the electrode, into the current collector, through an external wire, and towards the positive electrode. Meanwhile, the lithium ion migrates through the electrolyte towards the positive electrode. At the surface of the positive electrode particles, the lithium ion and the electron combine through another chemical reaction to form a lithium atom intercalated in the positive electrode particle. To charge, a voltage is applied across the cell and the whole process occurs in reverse.
 
 \section{Doyle-Fuller-Newman (DFN) Model}
-We summarize here the 1+1D DFN model which is the standard model of a lithium-ion battery \cite{doyle,Fuller1994,newman_book}. The model is derived either by volume averaging \cite{newman_book} or the method of multiple scales \cite{Richardson2011}. We denote quantities in the negative electrode, separator, and positive electrode regions with the subscript $k=n,s,p$, respectively. We also denote all dimensional quantities with a superscript $*$. A full list of the of the variables and dimensional parameters in the model can be found in Table \ref{tab:dimVar} and Table \ref{tab:dimensional}, respectively. 
-
-The electrolyte is modelled as consisting of three species: lithium ions (+), anions (-), and a neutral solvent. The electrolyte is assumed to consist of almost entirely neutral solvent which is also assumed to be stationary. The other two species are considered to only make up a small fraction of the electrolyte. Electroneutrality is also employed in the derivation of the model; this is an assumption that sets the concentrations of lithium ions and anions equal. This then allows for the diffusion--migration equations for lithium ions and anions to be added together to give an effective diffusion equation, and also subtracted to give an equation for conservation of current. Concentrated solution theory is employed so that drag force interactions are accounted for in the flux constitutive laws. \\ 
-
-Lithium transport in the electrode particles is modelled by a standard diffusion. The electrolyte is then coupled to the electrode particles through Butler--Volmer equations (forward an backward reactions that account for the potential difference and species concentrations across the layer), which represent the electrochemical reactions. A microscale structure consisting of an electrode particle surrounded by electrolyte is considered and then homogenised so that a macroscale description of the electrolyte is given. The spacial coordinate on the macroscale is $x^*$. At every point on this macroscale a spherical electrode particle is inserted with the distance along its radius described using a second spacial coordinate, $r^*$. In the homogenised model, the exchange with the electrode particles enters the electrolyte equations as a source/sink term. Finally, a macroscopic description of current through the solid phase is given by a conservation of current equation accompanied by Ohm's law. The full system of governing equations is summarized as: 
-\begin{subequations} 	
-    \begin{gather}
-    	\epsilon_k \pdv{c_e^*}{t^*} = \pdv{x^*}\left(\epsilon_k^b D_e^*(c_e^*) \pdv{c_e^*}{x^*}\right) + a_k^* (1-t^+) G_k^*, \\ 
-    	\pdv{i_e^*}{x^*} = a_k^* F^* G_k^*, \\ 
-        i_e^* = \epsilon_k^b \kappa_e^*(c_e^*) \left( - \pdv{\phi_e^*}{x^*} + 2(1-t^+)\frac{R^*T^*}{F^*} \pdv{x^*}\left(\log(c_e^*)\right)\right)
-    \end{gather} 
-
-	\begin{gather}
-     \pdv{c_k^*}{t^*} = \frac{1}{(r^*)^2}\pdv{r^*}\left((r^*)^2 D_k^*\pdv{c_k^*}{r^*}\right), \\
-     \pdv{c_k^*}{r^*}\big|_{r^*=0} = 0, \ \ - D^*_k\pdv{c_k^*}{r^*}\big|_{r^*=R_k} = G_k^* \\
-     i_k^* = -\kappa_k^* \pdv{\phi_k^*}{x^*}, \\ 
-        \pdv{i_k^* }{x^*} = - a_s^* F^* G_k^* 
-    \end{gather} 
- 
-    \begin{align} 
-    	\begin{split}
-    	G_k^* &= \frac{m_k^*}{F^*} (c_k^*)^{1/2} (c_{k,\text{max}}^*-c_k^*)^{1/2}(c_e^*)^{1/2} \sinh\left(\frac{F^*\eta^*_k}{2R^*T^*} \right)\big|_{r^*=R_k^*}, \\ \eta^*_k &= \phi_k^* - \phi_e^* - U_s^*(c_k^*),
-    	\end{split}
-    \end{align} 
-with the boundary conditions
-    \begin{gather} 
-    	\pdv{c_k^*}{x^*}\big|_{x^*=0,L^*}=0, \\ i_e^*\big|_{x^*=0,L^*}=0, \quad i_e^*\big|_{x^*=L_n^*,L^*-L_p^*}=I^*
-    \end{gather} 
+We summarize here the 1+1D DFN model which is the standard model of a lithium-ion battery \cite{doyle,Fuller1994,newman_book}. The model is derived either by volume averaging \cite{newman_book} or the method of multiple scales \cite{Richardson2011}. Throughout, we use a superscript $*$ to indicate dimensional quantities. As indicated in Figure \ref{fig:liBat}, the thicknesses of the negative electrode, separator, and positive electrode are $L^*_n$, $L_s^*$, and $L_p^*$, respectively. We denote the current collector to current collector thickness of the battery by $L^*=L_n^*+L_s^*+L_p^*$. The active material particles are assumed to be spherically symmetric with radii $R_n$ and $R_p$ in the negative and positive electrodes, respectively. We use the spatial coordinate $x^*\in[0,L^*]$ to indicate the location through the thickness of the battery and the spatial coordinate $r^*\in[0,R_k^*]$ to indicate the location within the active material particles. We define the following regions of the battery
+\begin{align*}
+    &\Omega^*_n = [0, L_n^*], \\ 
+    &\Omega^*_s = [L_n^*, L^*-L_p^*], \\ 
+    &\Omega^*_p = [L^*-L_p^*, L^*],
+\end{align*}
+which correspond to the negative electrode, separator, and positive electrode regions, respectively. We denote electric potentials by $\phi^*$, current densities by $i^*$, and lithium concentrations by $c^*$ (in the electrolyte $c^*$ refers to lithium ion concentrations). To indicate the region within which each variable is defined we include a subscript $k=n,s,p$ which corresponds to $\Omega^*_n$, $\Omega^*_s$, and $\Omega^*_p$, respectively. To distinguish variables in the electrolyte from those in the solid phase of the electrode, we employ an additional subscript $e$ for electrolyte variables. For clarity, the vartiables in the model and their corresponding regions are
+\begin{align*}
+ & \phi_n^*, \ 
+ \phi_{en}^*, \
+  c_{en}^*, \
+ i_n^*, \
+ i_{en}^*: \quad
+ &&x^*\in \Omega_{n}^*, \\
+ & \phi_{es}^*, \
+  c_{es}^*, \
+ i_{es}^*: \quad
+ &&x^*\in \Omega_{s}^*, 
+ \\
+  & \phi_p^*, \ 
+ \phi_{ep}^*, \
+  c_{ep}^*, \
+ i_p^*, \
+ i_{ep}^*: \quad
+ &&x^*\in \Omega_{p}^*, 
+ \\
+ &c_n^*: &&r^*\in[0,R_n^*],  \quad x^*\in \Omega_{n}^*, 
+ \\
+ &c_p^*: &&r^*\in[0,R_p^*], \quad x^*\in \Omega_{p}^*.
+\end{align*}
+We note that $c_n^*$ and $c_p^*$ are dependent on both the macroscopic spatial variable, $x^*$, and the microscopic spatial variable, $r^*$. When stating the governing equations for a variable, we take the region upon which an equation holds to be automatically defined by the subscript, $k=n,s,p$, of the variable. With this in mind, the 1+1D DFN model is summarised as:
+\begin{subequations} 
+    \begin{align}
+        \intertext{Charge Conservation:}
+        &\pdv{i_{ek}^*}{x^*} = a_k^* F^* G_k^*,  &&k\in\{n,p\},\\ 
+        &\pdv{i_{es}^*}{x^*} = 0, &&\\ 
+        &\pdv{i_k^*}{x^*} = -a_k^* F^* G_k^*, &&k\in\{n,p\}, \\
+        &i_{ek}^* = \epsilon_k^b \kappa_e^*(c_{ek}^*) \left( - \pdv{\phi_{ek}^*}{x^*} + 2(1-t^+)\frac{R^*T^*}{F^*} \pdv{x^*}\left(\log(c_{ek}^*)\right)\right), && k\in\{n,s,p\}, \\ 
+        &i_{k}^* = -\kappa_k^* \pdv{\phi_k^*}{x^*}, && k\in\{n,p\}
+        \intertext{Molar Conservation:}
+        &\epsilon_k \pdv{c_{ek}^*}{t^*} = \pdv{x^*}\left(\epsilon_k^b D_e^*(c_{ek}^*) \pdv{c_{ek}^*}{x^*}\right) + a_k^* (1-t^+) G_k^*, && k\in\{n,s,p\}, \\ 
+        &\pdv{c_k^*}{t^*} = \frac{1}{(r^*)^2}\pdv{r^*}\left((r^*)^2 D_k^*\pdv{c_k^*}{r^*}\right), &&k\in\{n,p\}, 
+        \intertext{Electrochemical Reactions:}
+    	&G_k^* = \frac{m_k^*}{F^*} (c_k^*)^{1/2} (c_{k,\text{max}}^*-c_k^*)^{1/2}(c_{ek}^*)^{1/2} \sinh\left(\frac{F^*\eta^*_k}{2R^*T^*} \right)\big|_{r^*=R_k^*}, && k\in\{n,p\}, \\ 
+    	&\eta^*_k = \phi_k^*\big|_{r^*=R_k^*} - \phi_{ek}^* - U_k^*(c_k^*)\big|_{r^*=R_k^*},  &&k\in\{n,p\}.
+    \end{align}
+\end{subequations}
+with the boundary conditions:
+\begin{subequations}
+    \begin{align}
+        \intertext{Current in Electrodes:}
+    &\phi^*_{n}\big|_{x^*=0}=\phi^*_{cn}, \quad \phi^*_{p}\big|_{x^*=1}=\phi^*_{cp}, && \\ 
+    &i^*_n\big|_{x^*=0} = \mathcal{I}^*, \quad i^*_n\big|_{x^*=L^*_n} = 0, && \label{eqn:dim:current1}\\
+    &i^*_p\big|_{x^*=L^*-L^*_p} = 0, \quad i^*_p\big|_{x^*=L^*} = \mathcal{I}^* && \label{eqn:dim:current2}
+\intertext{Current in Electrolyte:}
+&i^*_{en,1}\big|_{x^*=0} = 0, \quad i^*_{ep,1}\big|_{x^*=L^*}=0,  && \\ &\phi^*_{en}\big|_{x^*=L^*_n}=\phi_{es}^*\big|_{x^*=L^*_n}, \quad i^*_{en,1}\big|_{x^*=L^*_n}=i^*_{es,1}\big|_{x^*=L^*_n}, && \\ 
+&\phi^*_{es}\big|_{x^*=L^*-L^*_p}=\phi^*_{ep}\big|_{x^*=L^*-L^*_p}, \quad 
+i^*_{es,1}\big|_{x=L^*-L^*_p}=i^*_{ep,1}\big|_{x^*=L^*-L^*_p}, &&
+\intertext{Concentration in Electrolyte:}
+&\pdv{c^*_{en}}{x^*}\bigg|_{x^*=0} = 0, \quad \pdv{c^*_{ep}}{x^*}\bigg|_{x^*=L^*}=0,  &&\\ 
+&c^*_{en}|_{x^*=L^*_n}=c^*_{es}|_{x^*=L^*_n}, \quad \epsilon_n^b\pdv{c^*_{en}}{x^*}\bigg|_{x^*=L^*_n}=\epsilon_s^b\pdv{c^*_{es}}{x^*}\bigg|_{x^*=L^*_n}, && \\
+&c^*_{es}|_{x^*=L^*-L^*_p}=c^*_{ep}|_{x^*=L^*-L^*_p}, \quad \epsilon_s^b\pdv{c^*_{es}}{x^*}\bigg|_{x^*=L^*-L^*_p}=\epsilon_p^b\pdv{c^*_{ep}}{x^*}\bigg|_{x^*=L^*-L^*_p}, && 
+\intertext{Concentration in Electrode Active Material:}
+&\pdv{c_k^*}{r^*}\bigg|_{r^*=0} = 0, \quad - D^*_k\pdv{c_k^*}{r^*}\bigg|_{r^*=R_k^*} = G_k^*, &&k\in\{n,p\} 
+    \end{align}
+    
 and initial conditions
-    \begin{gather} 
-    	c_k^*(x^*,r^*,0) = c_{k,0}^*, \quad c_e^*(x^*,0) = c^*_{e,\text{typ}}, \\ 
-        \phi^*_{e}(x^*,0) = \phi^*_{e,0}, \quad \phi^*_{k}(x^*,0) = \phi^*_{k,0}.
-    \end{gather} 
+    \begin{align} 
+    	&c_k^*(x^*,r^*,0) = c_{k,0}^*, \quad \phi^*_{k}(x^*,0) = \phi^*_{k,0} , && k\in\{n,p\}\\
+        &\phi^*_{ek}(x^*,0) = \phi^*_{e,0}, \quad c_{ek}^*(x^*,0) = c^*_{e,\text{typ}}, && k\in\{n,s,p\}.
+    \end{align} 
 \end{subequations}
 
+We prescribe the functional forms from Newman's Dualfoil code for $U_n^*(c_n^*)$, $U_p^*(c_p^*)$, and $D_e^*(c_e^*)$, which are the open circuit potentials (OCP) at the negative and positive electrodes and the lithium ion diffusivity in the electrolyte, respectively \cite{newman2004fortran}. A full list of parameters and their values is provided in Table \ref{tab:parameters}. These functions and parameters correspond to a cell with a graphite negative electrode, a \ce{LiPF6} in EC:DMC electrolyte, and a lithium cobalt oxide positive electrode. In (\ref{eqn:dim:current1}) and (\ref{eqn:dim:current2}) $\mathcal{I}^*$ is the actual current density, distinguished from $I^*$ in Table \ref{tab:parameters}, which is the typical current density. We make this distinction to easily accommodate non-constant currents within our reduced models.
 
+\begin{table}[h]
+	\centering 
+	\resizebox{\textwidth}{!}{%
+	\begin{tabular}{c c l c c c} 
+	\toprule
+     Parameter & Units & Description & $\Omega^*_{n}$ & $\Omega^*_{s}$ & $\Omega^*_{p}$ \\ 
+    \midrule 
+    $c^*_{e,\text{typ}}$ & $\SI{}{\mol \metre^{-3}}$ & Typical lithium ion concentration in electrolyte & $1\times10^3$ & $1\times10^3$ & $1\times10^3$ \\
+    $\tilde{D}_e^*$ & $\SI{}{\metre^{2}/\second}$ & Typical electrolyte diffusivity & $5.34\times10^{-10}$ & $5.34\times10^{-10}$ & $5.34\times10^{-10}$ \\
+    $\epsilon_k$ & - & Electrolyte volume fraction & $0.3$ & 1 & $0.3$  \\
+    $c^*_{k,\text{max}}$ & $\SI{}{\mol \metre^{-3}}$ & Maximum lithium concentration &$2.4983\times 10^4$ & - & $5.1218\times 10^4$ \\
+     $\sigma^*_k$ & $\SI{}{\ohm^{-1}\metre^{-1}}$ & Solid conductivity & 100 & - & 10 \\
+     $\tilde{D}^*_k$ & $\SI{}{\metre^{2}/\second}$ & Typical electrode diffusivity &  $3.9\times10^{-14}$ & - &  $1\times10^{-13}$\\
+     $R^*_k$ & $\SI{}{\micro\metre}$ & Particle radius & 10 & - & 10  \\
+     $a^*_k$ & $\SI{}{\micro\metre^{-1}}$ & Electrode surface area density & 0.18 & - & 0.15 \\
+     $m^*_k$ & $\SI{}{\ampere \metre^{-2}(\metre^3/\mol)^{1.5}}$ & Reaction rate & $2\times10^{-5}$ & - & $6\times10^{-7}$ \\
+     $L^*_k$ & $\SI{}{\micro\metre}$ & Thickness & 100 & 25 & 100 \\
+      \midrule
+     $F^*$ & $\SI{}{\coulomb \mol^{-1}}$ & Faraday's constant & & 96487 &  \\
+     $R_g^*$ & $\SI{}{\joule \mol^{-1} \kelvin^{-1}}$ & Universal gas constant && 8.314472 & \\
+     $T^*$ & $\SI{}{\kelvin}$ & Temperature && 298.15 & \\
+     $b$ & - & Bruggeman coefficient && 1.5 &  \\
+     $t^+$ & - & Transference number && 0.4 & \\
+     $\Phi^*$ &  $\SI{}{V}$ & Typical potential drop across cell & & 1 & \\
+     $I^*$ & $\SI{}{A m^{-2}}$ & Typical current density & & 13 & \\
+    \bottomrule
+	\end{tabular}}
+    \caption{Model Parameters: Values taken from Scott Moura's DFN model (based on DUELFOIL parameters).} \label{tab:parameters}
+\end{table}
+
+
+\iffalse
+\begin{subequations}
+    \begin{align}
+        \intertext{Current in Electrodes:}
+    &\phi_{n}\big|_{x=0}=\phi_{cn}, \quad \phi_{p}\big|_{x=1}=\phi_{cp}, && \\ 
+    &i_n\big|_{x=0} = I, \quad i_n\big|_{x=L_n} = 0, && \\
+    &i_p\big|_{x=1-L_p} = 0, \quad i_p\big|_{x=1} = I &&
+\intertext{Current in Electrolyte:}
+&i_{en,1}\big|_{x=0} = 0, \quad i_{ep,1}\big|_{x=1}=0,  && \\ &\phi_{en}\big|_{x=L_n}=\phi_{es}\big|_{x=L_n}, \quad i_{en,1}\big|_{x=L_n}=i_{es,1}\big|_{x=L_n}, && \\ 
+&\phi_{es}\big|_{x=1-L_p}=\phi_{ep}\big|_{x=1-L_p}, \quad 
+i_{es,1}\big|_{x=1-L_p}=i_{ep,1}\big|_{x=1-L_p}, &&
+\intertext{Concentration in Electrolyte:}
+&\pdv{c_{en}}{x}\bigg|_{x=0} = 0, \quad \pdv{c_{ep}}{x}\bigg|_{x=1}=0,  &&\\ 
+&c_{en}|_{x=L_n}=c_{es}|_{x=L_n}, \quad \epsilon_n^b\pdv{c_{en}}{x}\bigg|_{x=L_n}=\epsilon_s^b\pdv{c_{es}}{x}\bigg|_{x=L_n}, && \\
+&c_{es}|_{x=1-L_p}=c_{ep}|_{x=1-L_p}, \quad \epsilon_s^b\pdv{c_{es}}{x}\bigg|_{x=1-L_p}=\epsilon_p^b\pdv{c_{ep}}{x}\bigg|_{x=1-L_p}, && 
+\intertext{Concentration in Electrode Active Material:}
+&\pdv{c_k}{r_k}\bigg|_{r_k=0} = 0, \quad -\beta_k\pdv{c_k}{r_k}\bigg|_{r_k=1} = G_k, \quad  && k\in\{n,p\}.
+    \end{align}
+\end{subequations}
+\fi
+
+\iffalse
 \begin{table}[h]
 	\centering
 	\begin{tabular}{|c|c|}\hline
@@ -157,7 +246,9 @@ and initial conditions
     \end{tabular}
     \caption{DFN dimensional variables}\label{tab:dimVar}
 \end{table} 
+\fi
 
+\iffalse
 \begin{table}[h]
 	\centering 
 	\resizebox{\textwidth}{!}{%
@@ -194,8 +285,8 @@ and initial conditions
     \end{tabular}}
     \caption{Dimensional Parameters: Values taken from Scott Moura's DFN model (based on DUELFOIL parameters)} \label{tab:dimensional}
 \end{table}
+\fi
 
-We prescribe functional forms taken from Newman's Dualfoil code for $U_n^*(c_n^*)$, $U_p^*(c_p^*)$, and $D_e^*(c_e^*)$, which are the open circuit potentials (OCP) at the negative and positive electrodes and the lithium ion diffusivity in the electrolyte, respectively \cite{newman2004fortran}. These parameters and functions correspond to a cell with a graphite negative electrode, an \ce{LiPF6} in EC:DMC electrolyte, and a lithium cobalt oxide positive electrode.
 
 \section{Asymptotic Reduction of DFN Model}
 
@@ -553,7 +644,7 @@ To investigate methods for the correction of the second discrepancy, the asympto
 
 
 \section{Summary and Further Work} 
-In this chapter, we have rigorously derived simplified mathematical models from the standard DFN model through the use of asymptotic methods. The leading order model we derive, (\ref{eqn:SPM}), is commonly used in the control community. By considering higher order effects, we have extended this model so that it is applicable over a larger range of operating conditions. We then identified two discrepancies between our extended model and the DFN model and demonstrated a fix for the first. We also investigated methods to correct the second discrepancy but have so far been unsuccessful. We are in the process of investigating further approaches to resolve it. \\ 
+We have rigorously derived simplified mathematical models from the standard DFN model through the use of asymptotic methods. The leading order model we derive, (\ref{eqn:SPM}), is commonly used in the control community. By considering higher order effects, we have extended this model so that it is applicable over a larger range of operating conditions. We then identified two discrepancies between our extended model and the DFN model and demonstrated a fix for the first. We also investigated methods to correct the second discrepancy but have so far been unsuccessful. We are in the process of investigating further approaches to resolve it. \\ 
 
 There are a number of possible extensions to the simple models we have derived: incorporation of mechanical effects, thermal effects, and various degradation mechanisms. One approach would be to simply introduce these effects on top of the existing simple models without consideration of their interactions within the context of a more complicated model such as the DFN. Instead, the method outlined in this chapter offers a systematic approach to deriving reduced models so that potentially important effects are not excluded. In the Chapter 4, we will discuss our current plans for extending the DFN model to include mechanical effects and adapt it to a lithium-ion pouch cell. We will then employ the techniques discussed in this chapter to reduce this model.  
 
