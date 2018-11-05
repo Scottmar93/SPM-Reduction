@@ -1,0 +1,341 @@
+%% Put any plot commands in here 
+
+% noniso{D, nx, ylim} 
+
+%\definecolor{c1}{RGB}{102,194,165}
+%\definecolor{c2}{RGB}{252,141,98}
+%\definecolor{c3}{RGB}{141,160,203}
+%\definecolor{c4}{RGB}{231,138,195}
+%\definecolor{c5}{RGB}{166,216,84}
+%\definecolor{c6}{RGB}{255,217,47}
+
+\definecolor{c1}{RGB}{228,26,28}
+\definecolor{c2}{RGB}{55,126,184}
+\definecolor{c3}{RGB}{77,175,74}
+\definecolor{c4}{RGB}{152,78,163}
+\definecolor{c5}{RGB}{255,127,0}
+\definecolor{c6}{RGB}{106,61,154}
+
+
+\pgfplotscreateplotcyclelist{mylist}{
+{c1,thick}, 
+{c2,thick},
+{c3,thick},
+{c4,thick},
+{c5,thick},
+{c1,dashed,thick},
+{c1,dotted,thick},
+{c2,dashed,thick},
+{c2,dotted,thick},
+{c3,dashed,thick},
+{c3,dotted,thick},
+{c4,dashed,thick},
+{c4,dotted,thick},
+{c5,dashed,thick},
+{c5,dotted,thick}}
+
+\newenvironment{customlegend}[1][]{%
+    \begingroup
+    % inits/clears the lists (which might be populated from previous
+    % axes):
+    \csname pgfplots@init@cleared@structures\endcsname
+    \pgfplotsset{#1}%
+}{%
+    % draws the legend:
+    \csname pgfplots@createlegend\endcsname
+    \endgroup
+}%
+
+% makes \addlegendimage available (typically only available within an
+% axis environment):
+\def\addlegendimage{\csname pgfplots@addlegendimage\endcsname}
+
+
+\newcommand{\LiBattery}{
+	\begin{tikzpicture}[scale=0.6,>=stealth]
+    	
+        \draw[line width=0.4mm] (-7.5,0) -- (-8.5,0) --(-8.5,4.7)-- (8.5,4.7) -- (8.5,0) -- (7.5,0);
+         \draw[line width=0.4mm, fill=white] (-1.5,4.2) rectangle (1.5,5.2);
+         \node at (0,4.7){Load};
+    	
+		\draw[step=1cm,gray,very thin, draw=none] (-9,-7) grid (9,6);
+        
+        % Electrolyte
+        \draw[line width=0.5mm, pattern=dots] (-6.5,-3) rectangle (6.5,3);
+        
+        % separator
+        \draw[fill=white]  (-0.5,-3) rectangle (0.5,3);
+        \draw[line width=0.5mm,pattern=crosshatch dots]  (-0.5,-3) rectangle (0.5,3);
+        
+        % Negative Current Collector
+        \draw[line width=0.5mm] (-7.5,-3) rectangle (-6.5,3);
+        
+        % Positive Current Collector
+        \draw[line width=0.5mm] (6.5,-3) rectangle (7.5,3);
+        
+        % negative electrode       
+        \draw[fill=white,draw=none] (-5.5, 2) circle (1cm);
+        \draw[fill=white,draw=none] (-5.5, 0) circle (1cm);
+        \draw[fill=white,draw=none] (-5.5, -2) circle (1cm);        
+        
+        \draw[fill=white,draw=none] (-3.5, 2) circle (1cm);
+        \draw[fill=white,draw=none] (-3.5, 0) circle (1cm);
+        \draw[fill=white,draw=none] (-3.5, -2) circle (1cm);       
+        
+        \draw[fill=white,draw=none] (-1.5, 2) circle (1cm);
+        \draw[fill=white,draw=none] (-1.5, 0) circle (1cm);
+        \draw[fill=white,draw=none] (-1.5, -2) circle (1cm);
+        
+        
+        
+        \draw[line width=0.35mm,pattern=crosshatch, pattern color = black] (-5.5, 2) circle (1cm);
+        \draw[line width=0.35mm,pattern=crosshatch, pattern color=black] (-5.5, 0) circle (1cm);
+        \draw[line width=0.35mm,pattern=crosshatch, pattern color=black] (-5.5, -2) circle (1cm);        
+        
+        \draw[line width=0.35mm,pattern=crosshatch, pattern color=black] (-3.5, 2) circle (1cm);
+        \draw[line width=0.35mm,pattern=crosshatch, pattern color=black] (-3.5, 0) circle (1cm);
+        \draw[line width=0.35mm, pattern=crosshatch, pattern color=black] (-3.5, -2) circle (1cm);       
+        
+        \draw[ line width=0.35mm,pattern=crosshatch, pattern color=black] (-1.5, 2) circle (1cm);
+        \draw[ line width=0.35mm,pattern=crosshatch, pattern color=black] (-1.5, 0) circle (1cm);
+        \draw[ line width=0.4mm,pattern=crosshatch, pattern color=black] (-1.5, -2) circle (1cm);
+        
+        % positive electrode
+        \draw[fill=white,draw=none] (1.5,2) circle (1cm);
+        \draw[fill=white,draw=none] (1.5,0) circle (1cm);
+        \draw[fill=white,draw=none] (1.5,-2) circle (1cm);
+        
+        \draw[fill=white,draw=none] (3.5,2) circle (1cm);
+        \draw[fill=white,draw=none] (3.5,0) circle (1cm);
+        \draw[fill=white,draw=none] (3.5,-2) circle (1cm);
+        
+        \draw[fill=white,draw=none] (5.5,2) circle (1cm);
+        \draw[fill=white,draw=none] (5.5,0) circle (1cm);
+        \draw[fill=white,draw=none] (5.5,-2) circle (1cm);
+        
+		\draw[line width=0.35mm,pattern=north west lines] (1.5,2) circle (1cm);
+        \draw[line width=0.35mm,pattern=north west lines] (1.5,0) circle (1cm);
+        \draw[line width=0.35mm,pattern=north west lines] (1.5,-2) circle (1cm);
+        
+        \draw[line width=0.35mm,pattern=north west lines] (3.5,2) circle (1cm);
+        \draw[line width=0.35mm,pattern=north west lines] (3.5,0) circle (1cm);
+        \draw[line width=0.35mm,pattern=north west lines] (3.5,-2) circle (1cm);
+        
+        \draw[line width=0.35mm,pattern=north west lines] (5.5,2) circle (1cm);
+        \draw[line width=0.35mm,pattern=north west lines] (5.5,0) circle (1cm);
+        \draw[line width=0.35mm,pattern=north west lines] (5.5,-2) circle (1cm);
+      	
+        % Sizes 
+        %\draw[line width=0.35mm,<->] (-7.5,-3.5) -- (-6.51,-3.5);
+        %\node[below] at (-7,-3.6) {$\SI{25}{\micro\metre}$};
+        
+        \draw[line width=0.35mm,<->] (-6.49,-3.5) -- (-0.51,-3.5);
+        \node[below] at (-3.5,-3.6) {$\SI{100}{\micro\metre}$};
+        
+        \draw[line width=0.35mm,<->] (-0.49,-3.5) -- (0.49,-3.5);
+        \node[below] at (0,-3.6) {$\SI{25}{\micro\metre}$};
+        
+        \draw[line width=0.35mm,<->] (0.51,-3.5) -- (6.49,-3.5);
+        \node[below] at (3.5,-3.6) {$\SI{100}{\micro\metre}$};
+        
+        %\draw[line width=0.35mm,<->] (6.51,-3.5) -- (7.5,-3.5);
+        %\node[below] at (7,-3.6) {$\SI{25}{\micro\metre}$};
+        
+        %% Bottom Box
+        
+        %\draw[line width=0.4mm] (-7.5,-7.2) rectangle (7.5,-4.8);
+        
+        \draw[line width=0.35mm,pattern=crosshatch, pattern color = black] (-6, -6) circle (1cm);
+        \draw[line width=0.35mm,<->] (-4.8,-6) -- (-4.8,-5);
+        \node[right] at (-4.8,-5.5){$\SI{10}{\micro\metre}$};
+        
+         \draw[line width=0.35mm,pattern=north west lines, pattern color = black] (-1.5, -6) circle (1cm);
+        \draw[line width=0.35mm,<->] (-0.3,-6) -- (-0.3,-5);
+        \node[right] at (-0.3,-5.5){$\SI{10}{\micro\metre}$};
+              
+        
+        \draw[line width=0.35mm, pattern=dots] (2.3,-5.8) rectangle (3.3,-5.2);
+        \node[right] at (3.4,-5.5){Electrolyte};
+        
+        \draw[line width=0.4mm, pattern=crosshatch dots] (2.3,-6.8) rectangle (3.3,-6.2);
+        \node[right] at (3.4,-6.5){Separator};
+        
+         % Labels
+        \node at (-7,0){{\bf --}};
+        \node at (-3.5,3.5){Negative Electrode};
+        \node at (3.5,3.5){Positive Electrode};
+        
+        %\node at (0,3.5){Separator};
+        
+        \node at (7,0){{\bf +}};
+        
+	\end{tikzpicture}
+}
+
+\newcommand{\voltage}{
+	\centering
+	\begin{tikzpicture}
+	
+			\begin{axis}
+				[
+				width=\textwidth,
+				height=0.6\textwidth,
+				xlabel={Discharge Capacity ($\SI{}{\ampere\hour/\metre^2}$)},
+				ylabel={Voltage (V)},
+				xmin=0,
+  				xmax=25,
+  				ymin=3.2,
+  				ymax=3.9,  	
+  				minor tick num=1,
+  				grid=major, %both, major or minor
+  				major grid style={dashed, line width=.1pt},
+  				cycle list name=mylist, 
+  				legend pos=outer north east,
+  				legend style={name=leg}
+				]	
+				\foreach \x in {0.1, 0.5, 1, 2, 3}{
+					\addplot table [col sep=comma, x index=0, y index=1]
+					{plot/C\x.dat};
+					
+					\edef\temp{\noexpand\addlegendentry{\x C}}
+					\temp
+				}
+				\foreach \x in {0.1, 0.5, 1, 2, 3}{
+					\addplot table [col sep=comma, x index=0, y index=2]
+					{plot/C\x.dat};
+					\addplot table [col sep=comma, x index=0, y index=3]
+					{plot/C\x.dat};
+					}
+			\end{axis}
+							
+			%\node[fill=white, draw, align=center, below=1mm, anchor=north east] (1) at (leg.south east) {Word: Text};
+			
+			\begin{customlegend}[legend entries={DFN,SPM,SPMe},legend style={at={(leg.south)},below=1mm, anchor=north}]
+    			\addlegendimage{black, thick}
+    			\addlegendimage{black,dashed, thick}
+    			\addlegendimage{black, dotted, thick}
+    		\end{customlegend}
+	
+	\end{tikzpicture}
+}
+
+
+\newcommand{\transient}{
+	\begin{center} 
+	\begin{tikzpicture}
+	
+			\begin{axis}
+				[
+				width=0.9\textwidth,
+				height=0.5\textheight,
+				xlabel={Discharge Capacity ($\SI{}{\ampere\hour/\metre^2}$)},
+				ylabel={Voltage (V)},
+				xmin=0,
+  				xmax=1.5,
+  				ymin=3.72,
+  				ymax=3.78,  	
+  				minor tick num=1,
+  				grid=major, %both, major or minor
+  				major grid style={dashed, line width=.1pt},
+  				legend pos=north east,
+  				legend style={name=leg}
+				]	
+				{
+				\addplot[c1,thick] table [col sep=comma, x index=0, y index=1]
+					{plot/voltage/transient1C.dat};
+				\addplot[c2,thick, dashed] table [col sep=comma, x index=0, y index=2]
+					{plot/voltage/transient1C.dat};
+				\addplot[c3,thick, dashed] table [col sep=comma, x index=0, y index=3]
+					{plot/voltage/transient1C.dat};
+					
+					\edef\temp{\noexpand\addlegendentry{DFN}}
+					\temp
+					\edef\temp{\noexpand\addlegendentry{SPMe}}
+					\temp
+					\edef\temp{\noexpand\addlegendentry{SPMeT}}
+					\temp
+				}
+			\end{axis}						
+	
+	\end{tikzpicture}
+	\end{center} 
+}
+
+\newcommand{\fastDischarge}{
+	\begin{center} 
+	\begin{tikzpicture}
+	
+			\begin{semilogyaxis}
+				[
+				width=0.8\textwidth,
+				height=0.8\textheight,
+				xlabel={$\hat{\lambda}$},
+				ylabel={},
+				xmin=1,
+  				xmax=70,
+  				ymin=1e-12,
+  				ymax=1,  	
+  				minor tick num=1,
+  				grid=major, %both, major or minor
+  				major grid style={dashed, line width=.1pt},
+  				legend pos=north east,
+  				legend style={name=leg}
+				]	
+				{
+				\addplot[c1,thick] table [col sep=comma, x index=0, y index=1]
+					{plot/SEI/fastDischargeLiError.csv};
+				\addplot[c2,thick, dashed] table [col sep=comma, x index=0, y index=2]{plot/SEI/fastDischargeLiError.csv};
+				\addplot[c3,thick] table [col sep=comma, x index=0, y index=1]{plot/SEI/fastDischargeGrowthError.csv};
+				\addplot[c5,thick, dashed] table [col sep=comma, x index=0, y index=2]{plot/SEI/fastDischargeGrowthError.csv};
+					
+					\edef\temp{\noexpand\addlegendentry{Abs($\Delta q^+$)}}
+					\temp
+					\edef\temp{\noexpand\addlegendentry{$\exp(-\lambda y_0)$}}
+					\temp
+					\edef\temp{\noexpand\addlegendentry{Abs($\Delta q^-$)}}
+					\temp
+					\edef\temp{\noexpand\addlegendentry{$\exp(-2\lambda y_0)$}}
+					\temp
+				}
+			\end{semilogyaxis}						
+	
+	\end{tikzpicture}
+	\end{center} 
+}
+
+\newcommand{\fastCharge}{
+	\begin{center} 
+	\begin{tikzpicture}
+	
+			\begin{axis}
+				[
+				width=0.8\textwidth,
+				height=0.8\textheight,
+				xlabel={$\hat{\lambda}$},
+				ylabel={Growth rate ($q^-$)}, 
+				xmin=0,
+  				xmax=200,
+  				ymin=-5,
+  				ymax=300,  	
+  				minor tick num=1,
+  				grid=major, %both, major or minor
+  				major grid style={dashed, line width=.1pt},
+  				legend pos=north west,
+  				legend style={name=leg}
+				]	
+				{
+				\addplot[c1,thick] table [col sep=comma, x index=0, y index=1]
+					{plot/SEI/fastCharge.csv};
+				\addplot[c2,thick, dashed] table [col sep=comma, x index=0, y index=2]{plot/SEI/fastCharge.csv};
+					
+					\edef\temp{\noexpand\addlegendentry{Numerical}}
+					\temp
+					\edef\temp{\noexpand\addlegendentry{Analytical}}
+					\temp
+				}
+			\end{axis}						
+	\end{tikzpicture}
+	\end{center} 
+}
+
+
